@@ -9,7 +9,7 @@ For example, if the resource `/foo` gives the following JSON result: `{"foo": "b
 Add the following dependency and resolver to your build definition:
 
 ```scala
-resolvers += "julienrf.github.com" at "http://julienrf.github.com/repo/"
+resolvers += "julienrf.github.com" at "http://julienrf.github.com/repo-snapshots/"
 
 libraryDependencies += "julienrf" %% "play-jsonp-filter" % "1.0-SNAPSHOT"
 ```
