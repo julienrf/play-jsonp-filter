@@ -1,6 +1,8 @@
 # JSONP filter for Play! framework
 
-Enable JSONP on your API by using this filter.
+This filter enables JSONP on your existing API: any resource that returns a JSON content will return a JavaScript fragment if there is an additional `callback` parameter in the query string.
+
+For example, if the resource `/foo` gives the following JSON result: `{"foo": "bar"}`, the resource `/foo?callback=f` will give the following JavaScript result: `f({"foo": "bar"});`.
 
 ## Installation
 
