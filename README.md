@@ -11,8 +11,10 @@ Add the following dependency and resolver to your build definition:
 ```scala
 resolvers += "julienrf.github.com" at "http://julienrf.github.com/repo-snapshots/"
 
-libraryDependencies += "julienrf" %% "play-jsonp-filter" % "1.0-SNAPSHOT"
+libraryDependencies += "julienrf" %% "play-jsonp-filter" % "1.1-SNAPSHOT"
 ```
+
+The `1.1-SNAPSHOT` version is compatible with Play 2.2.x.
 
 ## Usage
 
@@ -26,4 +28,4 @@ import julienrf.play.jsonp.Jsonp
 object Global extends WithFilters(new Jsonp)
 ```
 
-See the Scaladoc (online soon) for more information on the parameters you can pass to the `Jsonp` constructor.
+See the [API documentation](http://julienrf.github.io/play-jsonp-filter/1.1-SNAPSHOT/api/) for more information on the parameters you can pass to the `Jsonp` constructor.
