@@ -1,7 +1,7 @@
 package julienrf.play.jsonp
 
 import org.specs2.mutable.Specification
-import play.api.mvc.{AsyncResult, Result, EssentialAction}
+import play.api.mvc.{SimpleResult, Result, EssentialAction}
 import play.api.mvc.Codec.utf_8
 import play.api.mvc.Results.Ok
 import play.api.test.FakeRequest
@@ -22,10 +22,8 @@ object JsonpSpec extends Specification {
 
     val jsonAction = EssentialAction(_ => Done(Ok(Json.obj("bar" -> "baz"))))
 
-    val asyncAction = EssentialAction(_ => Done(AsyncResult(Future.successful(Ok(Json.obj("bar" -> "baz"))))))
-
-    def run(uri: String)(action: EssentialAction): Result =
-      Await.result(filter(action)(FakeRequest("GET", uri)).run, Duration.Inf)
+    def run(uri: String)(action: EssentialAction): Future[SimpleResult] =
+      filter(action)(FakeRequest("GET", uri)).run
 
     "leave non-JSON results untouched" in {
       val result = run("/")(textAction)
@@ -49,12 +47,6 @@ object JsonpSpec extends Specification {
       val result = run("/?callback=foo")(textAction)
       contentType(result) must equalTo (Some(TEXT))
       contentAsString(result) must equalTo ("foo")
-    }
-
-    "support async results" in {
-      val result = run("/?callback=foo")(asyncAction)
-      contentType(result) must equalTo (Some(JAVASCRIPT))
-      contentAsString(result) must equalTo ("""foo({"bar":"baz"});""")
     }
   }
 }

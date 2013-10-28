@@ -30,18 +30,15 @@ class Jsonp(paramName: String = "callback")(implicit codec: Codec, ex: Execution
    * @param callback JavaScript callback name
    * @param result Result to transform
    */
-  def jsonpify(callback: String)(result: Result): Result = result match {
-    case result: SimpleResult[_] =>
-      result.header.headers.get(CONTENT_TYPE) match {
-        case Some(ct) if ct == JSON =>
-          SimpleResult(
-            result.header,
-            Enumerator(codec.encode(s"$callback(")) >>> result.body.map(body => result.writeable.transform(body)) >>> Enumerator(codec.encode(");"))
-          ).as(JAVASCRIPT)
-        case _ => result
-      }
-    case AsyncResult(result) => AsyncResult(result.map(jsonpify(callback)))
-    case _ => result // ChunkedResult is not supported and PlainResult have no body
-  }
+  def jsonpify(callback: String)(result: SimpleResult): SimpleResult = 
+    result.header.headers.get(CONTENT_TYPE) match {
+      case Some(ct) if ct == JSON =>
+        SimpleResult(
+          header = result.header,
+          body = Enumerator(codec.encode(s"$callback(")) >>> result.body >>> Enumerator(codec.encode(");")),
+          connection = result.connection
+        ).as(JAVASCRIPT)
+      case _ => result
+    }
 
 }
