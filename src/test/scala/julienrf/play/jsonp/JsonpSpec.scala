@@ -1,7 +1,7 @@
 package julienrf.play.jsonp
 
 import org.specs2.mutable.Specification
-import play.api.mvc.{SimpleResult, Result, EssentialAction}
+import play.api.mvc.{Result, EssentialAction}
 import play.api.mvc.Codec.utf_8
 import play.api.mvc.Results.Ok
 import play.api.test.FakeRequest
@@ -22,7 +22,7 @@ object JsonpSpec extends Specification {
 
     val jsonAction = EssentialAction(_ => Done(Ok(Json.obj("bar" -> "baz"))))
 
-    def run(uri: String)(action: EssentialAction): Future[SimpleResult] =
+    def run(uri: String)(action: EssentialAction): Future[Result] =
       filter(action)(FakeRequest("GET", uri)).run
 
     "leave non-JSON results untouched" in {

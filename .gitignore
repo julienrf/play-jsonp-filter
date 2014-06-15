@@ -2,3 +2,6 @@
 .idea_modules/
 target/
 *.iml
+.cache
+.classpath
+.project
