@@ -15,7 +15,7 @@ import play.api.libs.iteratee.Enumerator
  * @param codec Codec used to serialize the response body
  * @param ex Execution context to use in case of asynchronous results
  */
-class Jsonp(paramName: String = "callback")(implicit codec: Codec, ex: ExecutionContext) extends EssentialFilter {
+class Jsonp(paramName: String = Jsonp.DefaultParamName)(implicit codec: Codec, ex: ExecutionContext) extends EssentialFilter {
 
   def apply(action: EssentialAction) = EssentialAction { request =>
     val resultProducer = action(request)
@@ -30,10 +30,10 @@ class Jsonp(paramName: String = "callback")(implicit codec: Codec, ex: Execution
    * @param callback JavaScript callback name
    * @param result Result to transform
    */
-  def jsonpify(callback: String)(result: SimpleResult): SimpleResult = 
+  def jsonpify(callback: String)(result: Result): Result = 
     result.header.headers.get(CONTENT_TYPE) match {
       case Some(ct) if ct == JSON =>
-        SimpleResult(
+        Result(
           header = result.header,
           body = Enumerator(codec.encode(s"$callback(")) >>> result.body >>> Enumerator(codec.encode(");")),
           connection = result.connection
@@ -41,4 +41,8 @@ class Jsonp(paramName: String = "callback")(implicit codec: Codec, ex: Execution
       case _ => result
     }
 
+}
+
+object Jsonp {
+  val DefaultParamName = "callback"
 }
