@@ -6,7 +6,7 @@ For example, if the resource `/foo` gives the following JSON result: `{"foo": "b
 
 ## Installation
 
-Add the following dependency and resolver to your build definition:
+Add the following dependency to your build definition:
 
 ```scala
 libraryDependencies += "org.julienrf" %% "play-jsonp-filter" % "1.2"
