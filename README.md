@@ -9,12 +9,10 @@ For example, if the resource `/foo` gives the following JSON result: `{"foo": "b
 Add the following dependency and resolver to your build definition:
 
 ```scala
-resolvers += "julienrf.github.com" at "http://julienrf.github.com/repo-snapshots/"
-
-libraryDependencies += "julienrf" %% "play-jsonp-filter" % "1.1-SNAPSHOT"
+libraryDependencies += "org.julienrf" %% "play-jsonp-filter" % "1.1"
 ```
 
-The `1.1-SNAPSHOT` version is compatible with Play 2.2.x.
+The `1.1` version is compatible with Play 2.2.x.
 
 ## Usage
 
@@ -28,4 +26,8 @@ import julienrf.play.jsonp.Jsonp
 object Global extends WithFilters(new Jsonp)
 ```
 
-See the [API documentation](http://julienrf.github.io/play-jsonp-filter/1.1-SNAPSHOT/api/) for more information on the parameters you can pass to the `Jsonp` constructor.
+See the [API documentation](http://julienrf.github.io/play-jsonp-filter/1.1/api/) for more information on the parameters you can pass to the `Jsonp` constructor.
+
+# License
+
+This content is released under the [MIT License](http://opensource.org/licenses/mit-license.php).
