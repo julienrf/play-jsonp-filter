@@ -2,17 +2,18 @@ name := "play-jsonp-filter"
 
 organization := "org.julienrf"
 
-version := "1.2"
+version := "1.3.0"
 
-crossScalaVersions := Seq("2.10.4", "2.11.1")
+crossScalaVersions := Seq("2.10.5", "2.11.6")
 
 resolvers += "Typesafe Releases" at "http://repo.typesafe.com/typesafe/releases/"
 
-val playVersion = "2.3.0"
+val playVersion = "2.4.0-M3"
 
 libraryDependencies ++= Seq(
   "com.typesafe.play" %% "play" % playVersion,
-  "com.typesafe.play" %% "play-test" % playVersion % "test"
+  "com.typesafe.play" %% "play-test" % playVersion % Test,
+  "com.typesafe.play" %% "play-specs2" % playVersion % Test
 )
 
 publishTo := {

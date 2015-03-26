@@ -9,27 +9,30 @@ For example, if the resource `/foo` gives the following JSON result: `{"foo": "b
 Add the following dependency to your build definition:
 
 ```scala
-libraryDependencies += "org.julienrf" %% "play-jsonp-filter" % "1.2"
+libraryDependencies += "org.julienrf" %% "play-jsonp-filter" % "1.3"
 ```
 
-The `1.2` version is compatible with Play 2.3.x.
+The `1.3` version is compatible with Play 2.4.x.
 
 ## Usage
 
-Add the `julienrf.play.jsonp.Jsonp` filter to your `Global` object:
+Add the `julienrf.play.jsonp.Jsonp` filter to your `HttpRequestHandler`:
 
 ```scala
-import play.api.mvc.WithFilters
 import play.api.libs.concurrent.Execution.Implicits.defaultContext
 import julienrf.play.jsonp.Jsonp
 
-object Global extends WithFilters(new Jsonp)
+val jsonpFilter = new Jsonp()
+val httpRequestHandler = new DefaultHttpRequestHandler(router, httpErrorHandler, httpConfiguration, jsonpFilter)
 ```
 
-See the [API documentation](http://julienrf.github.io/play-jsonp-filter/1.2/api/) for more information on the parameters you can pass to the `Jsonp` constructor.
+See the [Play documentation](https://www.playframework.com/documentation/2.4.x/ScalaHttpFilters#Using-filters) for more information on filters.
+
+See the [API documentation](http://julienrf.github.io/play-jsonp-filter/1.3/api/) for more information on the parameters you can pass to the `Jsonp` constructor.
 
 # Changelog
 
+- v1.3: support for Play 2.4.x ;
 - v1.2: support for Play 2.3.x ;
 - [v1.1](https://github.com/julienrf/play-jsonp-filter/tree/1.1): support for Play 2.2.x.
 

@@ -1,16 +1,16 @@
 package julienrf.play.jsonp
 
 import org.specs2.mutable.Specification
-import play.api.mvc.{Result, EssentialAction}
-import play.api.mvc.Codec.utf_8
-import play.api.mvc.Results.Ok
-import play.api.test.FakeRequest
-import play.api.test.Helpers._
-import concurrent.{Future, Await}
-import concurrent.duration.Duration
 import play.api.http.MimeTypes._
 import play.api.libs.iteratee.Done
 import play.api.libs.json.Json
+import play.api.mvc.Codec.utf_8
+import play.api.mvc.Results.Ok
+import play.api.mvc.{EssentialAction, Result}
+import play.api.test.FakeRequest
+import play.api.test.Helpers._
+
+import scala.concurrent.Future
 
 object JsonpSpec extends Specification {
 
