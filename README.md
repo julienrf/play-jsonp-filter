@@ -16,7 +16,7 @@ The `1.2` version is compatible with Play 2.3.x.
 
 ## Usage
 
-Add the `julienrf.play.jsonp.Jsonp` filter to your `Global` object:
+For Scala, add the `julienrf.play.jsonp.Jsonp` filter to your `Global` object:
 
 ```scala
 import play.api.mvc.WithFilters
@@ -24,6 +24,20 @@ import play.api.libs.concurrent.Execution.Implicits.defaultContext
 import julienrf.play.jsonp.Jsonp
 
 object Global extends WithFilters(new Jsonp)
+```
+
+For Java, add the `julienrf.play.jsonp.Jsonp` filter to your `Global` object:
+
+```java
+
+public class Global extends GlobalSettings {
+    	@Override
+	    public <T extends EssentialFilter> Class<T>[] filters() {
+		      return new Class[] {julienrf.play.jsonp.JsonpJava.class};
+		      //If Gzip is activated in your build.sbt, add always Gzip as the first filter in the list
+		      //return new Class[] {GzipFilter.class, julienrf.play.jsonp.JsonpJava.class};
+	    }
+}
 ```
 
 See the [API documentation](http://julienrf.github.io/play-jsonp-filter/1.2/api/) for more information on the parameters you can pass to the `Jsonp` constructor.
