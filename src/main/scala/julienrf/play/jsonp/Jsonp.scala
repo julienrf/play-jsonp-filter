@@ -1,25 +1,25 @@
 package julienrf.play.jsonp
 
-import scala.concurrent.ExecutionContext
-import play.api.mvc._
+import play.api.http.ContentTypes.{JAVASCRIPT, JSON}
 import play.api.http.HeaderNames.CONTENT_TYPE
-import play.api.http.ContentTypes.{JSON, JAVASCRIPT}
 import play.api.libs.iteratee.Enumerator
+import play.api.mvc.Codec._
+import play.api.mvc._
+import play.api.libs.concurrent.Execution.Implicits.defaultContext
 
 /**
  * Transforms JSON responses into JavaScript responses if there is a `paramName` parameter in the request’s query string.
  *
  * See [[http://www.json-p.org/]] for more information about JSONP.
- *
- * @param paramName Name of the query string parameter containing the callback name.
- * @param codec Codec used to serialize the response body
- * @param ex Execution context to use in case of asynchronous results
  */
-class Jsonp(paramName: String = Jsonp.DefaultParamName)(implicit codec: Codec, ex: ExecutionContext) extends EssentialFilter {
+class Jsonp extends EssentialFilter {
+
+  val DefaultParamName = "callback"
+  implicit val codec = utf_8
 
   def apply(action: EssentialAction) = EssentialAction { request =>
     val resultProducer = action(request)
-    request.getQueryString(paramName) match {
+    request.getQueryString(DefaultParamName) match {
       case Some(callback) => resultProducer.map(jsonpify(callback))
       case None => resultProducer
     }
@@ -30,7 +30,7 @@ class Jsonp(paramName: String = Jsonp.DefaultParamName)(implicit codec: Codec, e
    * @param callback JavaScript callback name
    * @param result Result to transform
    */
-  def jsonpify(callback: String)(result: Result): Result = 
+  def jsonpify(callback: String)(result: Result): Result =
     result.header.headers.get(CONTENT_TYPE) match {
       case Some(ct) if ct == JSON =>
         Result(
@@ -41,8 +41,4 @@ class Jsonp(paramName: String = Jsonp.DefaultParamName)(implicit codec: Codec, e
       case _ => result
     }
 
-}
-
-object Jsonp {
-  val DefaultParamName = "callback"
 }

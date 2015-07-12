@@ -9,27 +9,32 @@ For example, if the resource `/foo` gives the following JSON result: `{"foo": "b
 Add the following dependency to your build definition:
 
 ```scala
-libraryDependencies += "org.julienrf" %% "play-jsonp-filter" % "1.2"
+libraryDependencies += "org.julienrf" %% "play-jsonp-filter" % "1.3"
 ```
 
-The `1.2` version is compatible with Play 2.3.x.
+The `1.3` version is compatible with Play 2.4.x.
 
 ## Usage
-
-Add the `julienrf.play.jsonp.Jsonp` filter to your `Global` object:
+The simplest way to use a filter is to provide an implementation of the HttpFilters trait in the root package
+~ https://www.playframework.com/documentation/2.4.x/ScalaHttpFilters
 
 ```scala
 import play.api.mvc.WithFilters
 import play.api.libs.concurrent.Execution.Implicits.defaultContext
 import julienrf.play.jsonp.Jsonp
 
-object Global extends WithFilters(new Jsonp)
-```
+import javax.inject.Inject
+import julienrf.play.jsonp.Jsonp
+import play.api.http.HttpFilters
 
-See the [API documentation](http://julienrf.github.io/play-jsonp-filter/1.2/api/) for more information on the parameters you can pass to the `Jsonp` constructor.
+class Filters @Inject()(jsonpFilter: Jsonp) extends HttpFilters {
+  def filters = Seq(jsonpFilter)
+}
+```
 
 # Changelog
 
+- v1.3: support for Play 2.4.x ;
 - v1.2: support for Play 2.3.x ;
 - [v1.1](https://github.com/julienrf/play-jsonp-filter/tree/1.1): support for Play 2.2.x.
 

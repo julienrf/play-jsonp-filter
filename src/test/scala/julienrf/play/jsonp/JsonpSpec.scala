@@ -16,7 +16,7 @@ object JsonpSpec extends Specification {
 
   "Jsonp filter" should {
 
-    val filter = new Jsonp()(utf_8, play.api.libs.concurrent.Execution.Implicits.defaultContext)
+    val filter = new Jsonp()
 
     val textAction = EssentialAction(_ => Done(Ok("foo")))
 
