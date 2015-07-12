@@ -2,18 +2,19 @@ name := "play-jsonp-filter"
 
 organization := "org.julienrf"
 
-version := "1.2"
+version := "1.3"
 
-crossScalaVersions := Seq("2.10.4", "2.11.1")
+crossScalaVersions := Seq("2.10.5", "2.11.6")
 
-resolvers += "Typesafe Releases" at "http://repo.typesafe.com/typesafe/releases/"
-
-val playVersion = "2.3.0"
+val playVersion = "2.4.2"
 
 libraryDependencies ++= Seq(
-  "com.typesafe.play" %% "play" % playVersion,
-  "com.typesafe.play" %% "play-test" % playVersion % "test"
+  "com.typesafe.play" %% "play" % playVersion
 )
+
+libraryDependencies += specs2 % Test
+
+resolvers += "scalaz-bintray" at "https://dl.bintray.com/scalaz/releases"
 
 publishTo := {
   val nexus = "https://oss.sonatype.org"
